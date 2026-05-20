@@ -108,3 +108,8 @@ spec:
         env:
         - name: DANGEROUSLY_DISABLE_HOST_CHECK
           value: "true"
+        resources:
+          requests:
+            cpu: "100m"
+          limits:
+            cpu: "500m"
