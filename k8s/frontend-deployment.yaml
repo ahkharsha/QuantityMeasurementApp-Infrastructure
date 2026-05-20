@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: qma-frontend
+spec:
+  type: LoadBalancer
+  selector:
+    app: qma-frontend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qma-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qma-frontend
+  template:
+    metadata:
+      labels:
+        app: qma-frontend
+    spec:
+      containers:
+      - name: qma-frontend
+        image: 054014031154.dkr.ecr.ap-south-2.amazonaws.com/qma-frontend:latest
+        env:
+        - name: DANGEROUSLY_DISABLE_HOST_CHECK
+          value: "true"
+        resources:
+          requests:
+            cpu: "100m"
+          limits:
+            cpu: "500m"

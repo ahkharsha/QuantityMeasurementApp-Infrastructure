@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: qma-backend
+spec:
+  selector:
+    app: qma-backend
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qma-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qma-backend
+  template:
+    metadata:
+      labels:
+        app: qma-backend
+    spec:
+      containers:
+      - name: qma-backend
+        image: 054014031154.dkr.ecr.ap-south-2.amazonaws.com/qma-backend:latest
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://mysql-db:3306/quantity_db
+        - name: SPRING_DATASOURCE_USERNAME
+          value: springuser
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
